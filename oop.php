@@ -95,7 +95,7 @@ echo "<br>";
 echo $dog->sound();
 echo "<br>";
 
-
+echo "sdfsdfs";
 echo "<h1>貓</h1>";
 $cat=new Cat;
 echo $cat->getName();
