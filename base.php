@@ -139,9 +139,20 @@ class DB{
             //UPDATE $this->table SET col1=value1,col2=value2.....where id=? && col1=value1
         }else{
             //insert
+            //['col1'=>'value1','col3'=>'value3','col2'=>'value2',];
+
+            /* $keys=array_keys($array);
+            
+            $cols=implode("`,`",array_keys($array));
+            $values=implode("','",$array); */
+
+            $sql="INSERT INTO $this->table (`".implode("`,`",array_keys($array))."`) 
+                                     VALUES('".implode("','",$array)."')";
+
+            //INSERT INTO $this->table(`col1`,`col2,`col3`.....) VALUES('value1','value2','value3'.....)
         }
 
-        echo $sql;
+        //echo $sql;
 
         return $this->pdo->exec($sql);
     }
@@ -181,11 +192,18 @@ class DB{
 
 $Journal=new DB('journal');
 /* echo "<pre>";
-print_r($Journal->del(2));
+print_r($Journal->del(20));
+print_r($Journal->del(21));
 echo "</pre>";  */
 echo "<pre>";
-print_r($Journal->save(['id'=>7,'money'=>310,'place'=>'義尤味勁']));
+print_r($Journal->save(['money'=>210,
+                        'place'=>'義尤味勁',
+                        'item'=>'午餐',
+                        'type'=>'飲食']));
 echo "</pre>"; 
+/* echo "<pre>";
+print_r($Journal->save(['id'=>7,'money'=>310,'place'=>'義尤味勁']));
+echo "</pre>";  */
 /* echo "<pre>";
 print_r($Journal->q("select * from `journal` where `item`='早餐' && `money` < 200"));
 echo "</pre>";  */
