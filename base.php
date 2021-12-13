@@ -119,90 +119,36 @@ class DB{
         
             }
         
-            echo $sql;
+            //echo $sql;
             return $this->pdo->query($sql)->fetchColumn();
     }
-/*     public function sum($col,...$arg){
-        $sql="SELECT sum({$col}) FROM $this->table ";
 
-        //依參數數量來決定進行的動作因此使用switch...case
-        switch(count($arg)){
-            case 1:
-  
-                if(is_array($arg[0])){
-
-                    foreach($arg[0] as $key => $value){
-        
-                        $tmp[]="`$key`='$value'";
-        
-                    }
-        
-                    $sql.=" WHERE ". implode(" AND " ,$tmp);
-                }else{
-                    
-                    $sql.=$arg[0];
-                }
-            break;
-            case 2:
-
-                foreach($arg[0] as $key => $value){
-        
-                    $tmp[]="`$key`='$value'";
-        
-                }
-        
-                $sql.=" WHERE ". implode(" AND " ,$tmp) . $arg[1];
-            break;
-        
-            }
-        
-            echo $sql;
-            return $this->pdo->query($sql)->fetchColumn(0);
-    }
-
-
-    public function min($col,...$arg){
-        $sql="SELECT min({$col}) FROM $this->table ";
-
-        //依參數數量來決定進行的動作因此使用switch...case
-        switch(count($arg)){
-            case 1:
-  
-                if(is_array($arg[0])){
-
-                    foreach($arg[0] as $key => $value){
-        
-                        $tmp[]="`$key`='$value'";
-        
-                    }
-        
-                    $sql.=" WHERE ". implode(" AND " ,$tmp);
-                }else{
-                    
-                    $sql.=$arg[0];
-                }
-            break;
-            case 2:
-
-                foreach($arg[0] as $key => $value){
-        
-                    $tmp[]="`$key`='$value'";
-        
-                }
-        
-                $sql.=" WHERE ". implode(" AND " ,$tmp) . $arg[1];
-            break;
-        
-            }
-        
-            echo $sql;
-            return $this->pdo->query($sql)->fetchColumn(0);
-    } */
     //新增或更新資料
 
 
     //刪除資料
+    public function del($id){
+        $sql="DELETE FROM $this->table WHERE ";
+        if(is_array($id)){
 
+            foreach($id as $key => $value){
+        
+                $tmp[]="`$key`='$value'";
+    
+            }
+
+            $sql .= implode(' AND ',$tmp);
+
+        }else{
+
+            $sql .= " id='$id'";
+
+        }
+
+        //echo $sql;
+
+        return $this->pdo->exec($sql);
+    }
 
     //萬用的查詢
 
@@ -215,14 +161,14 @@ class DB{
 
 $Journal=new DB('journal');
 echo "<pre>";
-print_r($Journal->math('count','*',['item'=>'早餐']));
+print_r($Journal->del(2));
 echo "</pre>"; 
-echo "<pre>";
+/* echo "<pre>";
 print_r($Journal->math('sum','money',['item'=>'早餐']));
 echo "</pre>"; 
 echo "<pre>";
 print_r($Journal->math('min','money',['item'=>'早餐']));
-echo "</pre>"; 
+echo "</pre>";  */
 /* echo "<pre>";
 print_r($Journal->all(['item'=>'早餐']));
 echo "</pre>";  */
