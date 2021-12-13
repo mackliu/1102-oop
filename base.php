@@ -123,8 +123,28 @@ class DB{
             return $this->pdo->query($sql)->fetchColumn();
     }
 
-    //新增或更新資料
+    //新增或更新資料,僅限一次一筆資料
+    public function save($array){
+        if(isset($array['id'])){
+            //update
+            foreach($array as $key => $value){
+                //sprint_f("`%s`='%s'",$key,$value)
+                if($key!='id'){
+                    $tmp[]="`$key`='$value'";
+                }
+            }
 
+            $sql="UPDATE $this->table SET ".implode(" , ",$tmp);
+            $sql .= " WHERE `id`='{$array['id']}'";
+            //UPDATE $this->table SET col1=value1,col2=value2.....where id=? && col1=value1
+        }else{
+            //insert
+        }
+
+        echo $sql;
+
+        return $this->pdo->exec($sql);
+    }
 
     //刪除資料
     public function del($id){
@@ -164,8 +184,11 @@ $Journal=new DB('journal');
 print_r($Journal->del(2));
 echo "</pre>";  */
 echo "<pre>";
-print_r($Journal->q("select * from `journal` where `item`='早餐' && `money` < 200"));
+print_r($Journal->save(['id'=>7,'money'=>310,'place'=>'義尤味勁']));
 echo "</pre>"; 
+/* echo "<pre>";
+print_r($Journal->q("select * from `journal` where `item`='早餐' && `money` < 200"));
+echo "</pre>";  */
 /* echo "<pre>";
 print_r($Journal->math('sum','money',['item'=>'早餐']));
 echo "</pre>"; 
