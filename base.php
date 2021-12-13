@@ -151,17 +151,20 @@ class DB{
     }
 
     //萬用的查詢
-
-
-
+    public function q($sql){
+        return $this->pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    }
 
 }
 
 
 
 $Journal=new DB('journal');
-echo "<pre>";
+/* echo "<pre>";
 print_r($Journal->del(2));
+echo "</pre>";  */
+echo "<pre>";
+print_r($Journal->q("select * from `journal` where `item`='早餐' && `money` < 200"));
 echo "</pre>"; 
 /* echo "<pre>";
 print_r($Journal->math('sum','money',['item'=>'早餐']));
